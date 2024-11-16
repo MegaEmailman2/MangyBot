@@ -51,7 +51,7 @@ async def start(context):
     
  async def stop(context):
      MapDict = {'SE' : 'MangetsuSE', 'TC' : 'MangetsuCenter'}
-     subprocess.Popen(('taskkill /fi "WINDOWTITLE eq ' + MapDict(context.message.content[13:])))
+     subprocess.Popen(('taskkill /fi "WINDOWTITLE eq *' + MapDict[context.message.content[13:]]))
     
 @client.command(name='update',
                 description="Updates the game servers.  Stop them first.",
