@@ -1,7 +1,6 @@
 #! python
 
 import asyncio
-import os
 import discord
 import subprocess
 import psutil
