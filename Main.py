@@ -21,7 +21,7 @@ client = Bot(command_prefix="!Server ", intents=intents)
                 usage="'!Server start TC' will boot The Center",
                 pass_context=True)
 async def start(context):
-    outstring = "Attempting to start the server now."
+    outstring = "```Attempting to start the server now.```"
     target = context.message.content[14:]
     if target == "TC":
         subprocess.Popen("C:\\Users\\Backup\\Desktop\\Center.bat", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT) 
@@ -34,20 +34,24 @@ async def start(context):
                 brief="Stops a server.",
                 usage="'!Server stop TC' will stop The Center",
                 pass_context=True)
-async def stop(context):
-    procname=""
-    target = context.message.content[13:]
-    if target == "TC":
-        procname = "Center"   ###Experimental
-    elif target == "SE":
-        procname = "etsuSE"   ###Experimental
-    for process in psutil.process_iter():
-        print(procname)
-        print(process.name())
-        if procname in process.name():
-            process.kill()
-    outstring = ("Attempting to stop the server running " + target + ".")
-    await context.send(outstring)
+# async def stop(context):
+    # procname=""
+    # target = context.message.content[13:]
+    # if target == "TC":
+        # procname = "Center"   ###Experimental
+    # elif target == "SE":
+        # procname = "etsuSE"   ###Experimental
+    # for process in psutil.process_iter():
+        # print(procname)
+        # print(process.name())
+        # if procname in process.name():
+            # process.kill()
+    # outstring = ("```Attempting to stop the server running " + target + ".```")
+    # await context.send(outstring)
+    
+ async def stop(context):
+     MapDict = {'SE' : 'MangetsuSE', 'TC' : 'MangetsuCenter'}
+     subprocess.Popen(('taskkill /fi "WINDOWTITLE eq ' + MapDict(context.message.content[13:])))
     
 @client.command(name='update',
                 description="Updates the game servers.  Stop them first.",
@@ -55,16 +59,18 @@ async def stop(context):
                 usage="!Server update",
                 pass_context=True)
 async def update(context):
-    outstring = "Attempting to update the servers.  Please wait 10 minutes before starting them."
+    outstring = "```Attempting to update the servers.  Please wait 10 minutes before starting them.```"
     subprocess.Popen("C:\\Users\\Backup\\Desktop\\Update.bat")
     await context.send(outstring)
 
-@client.command(name='test',
-		description="Guess.",
-		usage="!Server test",
+@client.command(name='help',
+		description="Lists commands.",
+		usage="!Server help",
 		pass_context=True)
-async def test(context):
-	await context.send("GG The bot is live.")
+async def help(context):
+	await context.send('```Commands should start with "!Server "```')
+    await context.send('```Commands are start <map>, stop <map>, and update.  Stop all servers before updating.```')
+    await context.send('```Valid map codes are currently: SE and TC```')
               
     
 def startup():
