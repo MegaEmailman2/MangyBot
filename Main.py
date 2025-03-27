@@ -4,6 +4,7 @@ import asyncio
 import discord
 import subprocess
 import psutil
+import os
 from discord.ext.commands import Bot
 
 intents = discord.Intents.default()
@@ -55,8 +56,19 @@ async def update(context):
     outstring = "```Attempting to update the servers.  Please wait 10 minutes before starting them.```"
     subprocess.Popen("C:\\Users\\Backup\\Desktop\\Update.bat")
     await context.send(outstring)
-              
     
+@client.command(name='Admin',
+                description='Don't worry about it.',
+                brief='',
+                usage='!Admin'
+                pass_context=True)
+async def Admin(context):
+    if os.path.exists('C:\\Users\\Backup\\Desktop\\AdminOn.txt'):
+        result = subprocess.run(context.message.content[14:], capture_output=True, text=True, check=True)
+        await context.send(result.stdout)
+    else:
+        await context.send("And stay out!  Or ask Paul to enable the permissions.")
+        
 def startup():
     print("Entering startup!")
     client.run(token)
